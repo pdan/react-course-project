@@ -1,0 +1,33 @@
+.app {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+}
+
+.content {
+    margin-left: 20px;
+}
+
+.title {
+
+}
+
+.description {
+
+}
+
+.date {
+
+}
+
+.image {
+    width: 50px;
+    height: 50px;
+}
