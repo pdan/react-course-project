@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { LegacyRef, MutableRefObject, Ref, useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Item from './Item'
 import { Button } from 'antd';
+import { ButtonHTMLType } from 'antd/lib/button/button';
+import { FormInstance } from 'rc-field-form';
 
 const data = [
   {
@@ -21,39 +23,32 @@ const data = [
   }
 ]
 
+interface UserSignin {
+  username: string
+  password: string
+}
+
 function App() {
-  const [state, setState] = useState<number>(1)
-  const [secondState, setSecondState] = useState<number>(1)
-  const [thirdState, setThirdState] = useState<{ a: number, b: number }>({
-    a: 1,
-    b: 100
-  })
-
-  useEffect(() => {
-    console.log('Change')
-  }, [state, secondState])
+  const form = React.createRef<HTMLFormElement>()
 
 
-  const counter1 = () => {
-
-    setState(state + 1);
+  const signin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log(
+      e.currentTarget.username.value,
+      e.currentTarget.password.value
+    )
   }
 
-  const counter2 = () => {
-
-    setSecondState(secondState + 1)
-  }
 
   return (
     <div className="app">
-      <a onClick={counter1}>Click to count 1</a>
-      <a onClick={counter2}>Click to count 2</a>
-      <h1 className="timer">{state} {secondState} </h1>
-      {
-        data.map((data, index) =>
-          <Item {...data} key={index} />
-        )
-      }
+      <form style={{ display: 'flex', flexDirection: 'column' }} ref={form} onSubmit={signin}>
+        <input name="username" placeholder='username' />
+        <input name="password" type="password" placeholder='password' />
+
+        <button type={'submit'}>Submit</button>
+      </form>
     </div>
   );
 }

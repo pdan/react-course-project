@@ -1,7 +1,11 @@
 @import '~antd/dist/antd.css';
 
-.App {
+.app {
   text-align: center;
+  display: flex;
+  width: 500px;
+  align-items: center;
+  justify-content: center;
 }
 
 .App-logo {
