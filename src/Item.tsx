@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useContext, useReducer } from 'react';
 import './Item.css';
+// import { Store } from './App'
+// import { appContext } from './store'
 
 interface Props {
     description: string
@@ -10,16 +12,17 @@ interface Props {
 
 const Item = (props: Props) => {
 
-    return (
-        <div className="item">
-            <img className="image" src={props.image} />
-            <div className="content">
-                <h2>{props.name}</h2>
-                <div className="time">{props.time}</div>
-                <div className="desciption">{props.description}</div>
-            </div>
-        </div>
-    )
+    // const { dashboard } = useContext<Store>(appContext)
+
+    // useEffect(() => {
+    //     console.log(dashboard)
+    // }, [])
+    // return (
+    //     <div className="item">
+    //         Item Store
+    //         {dashboard.map(v => <div>{v}</div>)}
+    //     </div>
+    // )
 }
 
 export default Item
