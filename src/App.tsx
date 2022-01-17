@@ -1,17 +1,23 @@
-import React, { useEffect, useContext, createContext, useReducer } from 'react';
+import { useContext, createContext, useReducer, useMemo } from 'react';
 import './App.css'
 
-type TContext = {
+type TState = {
   count: number
 }
-
 type TAction = {
   type: string
 }
 
-const CountContext = createContext<TContext>({ count: 0 })
+type TDispatch = (action: TAction) => void
 
-const countReducer = (state: TContext, action: TAction) => {
+type TContext = {
+  state: TState
+  dispatch: TDispatch
+}
+
+const CountContext = createContext<TContext>({ state: { count: 0 }, dispatch: () => undefined })
+
+const countReducer = (state: TState, action: TAction) => {
   switch (action.type) {
     case 'increment':
       return { count: state.count + 1 };
@@ -22,24 +28,35 @@ const countReducer = (state: TContext, action: TAction) => {
   }
 }
 
-function App() {
-  const { count } = useContext(CountContext)
-  const [state, dispatch] = useReducer(countReducer, { count: 0 })
-
-
+function Controls() {
+  const context = useContext(CountContext)
 
   return (
-    <CountContext.Provider value={ state }>
+    <>
+      <div className='counter'>{context.state.count}</div>
+      <div className="control">
+        <button className='button decrement-button' onClick={() => context.dispatch({ type: 'decrement' })}>
+          Decrement
+        </button>
+        <button className='button increment-button' onClick={() => context.dispatch({ type: 'increment' })}>
+          Increment
+        </button>
+      </div>
+    </>
+  )
+}
+
+function App() {
+  const [state, dispatch] = useReducer(countReducer, { count: 0 })
+
+  const contextValue = useMemo(() => {
+    return {state, dispatch}
+  }, [state, dispatch])
+
+  return (
+    <CountContext.Provider value={contextValue}>
       <div className='container'>
-        <div className='counter'>{count}</div>
-        <div className="control">
-          <button className='button decrement-button' onClick={() => dispatch({type: 'decrement'})}>
-            Decrement
-          </button>
-          <button className='button increment-button' onClick={() => dispatch({type: 'increment'})}>
-            Increment
-          </button>
-        </div>
+        <Controls />
       </div>
     </CountContext.Provider>
   );
